@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     });
     response.cookies.set('token', token, {
       httpOnly: true,
-      expires: 1,
+      expiresIn: '1d',
     });
 
     return response;
