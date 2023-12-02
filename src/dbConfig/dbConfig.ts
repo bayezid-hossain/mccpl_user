@@ -4,7 +4,7 @@ export async function connect() {
   try {
     if (mongoose.connections[0].readyState) return;
 
-    mongoose.connect(process.env.MONGO_URI!);
+    mongoose.connect(process.env.DB_URI_MCCPL!);
     const connection = mongoose.connection;
 
     connection.on('connected', () => {

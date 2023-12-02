@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       mobile: user.mobile,
     };
     //create token
-    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+    const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, {
       expiresIn: '1d',
     });
 
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     });
     response.cookies.set('token', token, {
       httpOnly: true,
+      expires: process.env.COOKIE_EXPIRE,
     });
 
     return response;
