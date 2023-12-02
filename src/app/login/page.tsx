@@ -45,7 +45,7 @@ export default function LoginPage() {
         toast.error('Invalid Mobile Number');
         return;
       }
-      if (user.mobile.length != 6) {
+      if (user.otp.length != 6) {
         toast.error('Invalid OTP Number');
         return;
       }
