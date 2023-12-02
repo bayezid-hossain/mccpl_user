@@ -10,9 +10,9 @@ export async function POST(request: NextRequest) {
     const reqBody = await request.json();
     const { mobile } = reqBody;
     const otp = generateOtp();
-    var otpExpire = new Date();
-    otpExpire.setTime(otpExpire.getTime() + 10 * 60 * 1000); //10 minutes otp expire
-    otpExpire = otpExpire.getTime();
+    var currentDate = new Date();
+    currentDate.setTime(currentDate.getTime() + 10 * 60 * 1000); //10 minutes otp expire
+    const otpExpire = currentDate.getTime();
     console.log(otpExpire); // Check if user exists
     let user = await User.findOne({ mobile });
 
