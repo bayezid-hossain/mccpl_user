@@ -20,9 +20,9 @@ export async function POST(request: NextRequest) {
     }
 
     //check if password is correct
-    if (user.otp != otp) {
+    if (user.otp != otp || new Date().getTime() > user.otpExpire) {
       return NextResponse.json(
-        { error: 'Invalid otp or mobile number' },
+        { error: 'Invalid OTP or OTP Expired' },
         { status: 400 }
       );
     }
@@ -44,7 +44,9 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       maxAge: 86400,
     });
-
+    user.otp = '';
+    user.otpExpire = '';
+    await user.save();
     return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

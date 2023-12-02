@@ -10,8 +10,10 @@ export async function POST(request: NextRequest) {
     const reqBody = await request.json();
     const { mobile } = reqBody;
     const otp = generateOtp();
-
-    // Check if user exists
+    var otpExpire = new Date();
+    otpExpire.setTime(otpExpire.getTime() + 10 * 60 * 1000); //10 minutes otp expire
+    otpExpire = otpExpire.getTime();
+    console.log(otpExpire); // Check if user exists
     let user = await User.findOne({ mobile });
 
     if (!user) {
@@ -19,6 +21,7 @@ export async function POST(request: NextRequest) {
       const newUser = new User({
         mobile,
         otp,
+        otpExpire,
       });
       console.log('Creating new user');
       user = await newUser.save();
@@ -26,9 +29,10 @@ export async function POST(request: NextRequest) {
       // Update existing user's otp
       console.log('Updating existing user');
       user.otp = otp;
+      user.otpExpire = otpExpire;
+
       await user.save();
     }
-
     const response = NextResponse.json({
       message: 'Otp sent',
       success: true,
