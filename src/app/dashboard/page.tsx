@@ -1,56 +1,340 @@
 'use client';
-import axios from 'axios';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import PaginationControls from '@/app/components/PaginationControls';
+import Navbar from '@/app/components/Navbar';
+import DashboardTable from '../components/DashboardTable';
+const data = [
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-spotify.svg',
+    name: 'Spotify',
+    amount: '$2,500',
+    date: 'Wed 3:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-amazon.svg',
+    name: 'Amazon',
+    amount: '$5,000',
+    date: 'Wed 1:00pm',
+    status: 'paid',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-pinterest.svg',
+    name: 'Pinterest',
+    amount: '$3,400',
+    date: 'Mon 7:40pm',
+    status: 'pending',
+    account: 'master-card',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-google.svg',
+    name: 'Google',
+    amount: '$1,000',
+    date: 'Wed 5:00pm',
+    status: 'paid',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+  {
+    img: 'https://docs.material-tailwind.com/img/logos/logo-netflix.svg',
+    name: 'netflix',
+    amount: '$14,000',
+    date: 'Wed 3:30am',
+    status: 'cancelled',
+    account: 'visa',
+    accountNumber: '1234',
+    expiry: '06/2026',
+  },
+];
+export default function Dashboard({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const page = searchParams['page'] ?? '1';
+  const per_page = searchParams['per_page'] ?? '5';
 
-export default function DashboardPage() {
-  const router = useRouter();
-  const [data, setData] = useState('nothing');
-  const logout = async () => {
-    try {
-      await axios.get('/api/users/logout');
-      toast.success('Logout successful');
-      router.push('/login');
-    } catch (error: any) {
-      console.log(error.message);
-      toast.error(error.message);
-    }
-  };
+  // mocked, skipped and limited in the real app
+  const start = (Number(page) - 1) * Number(per_page); // 0, 5, 10 ...
+  const end = start + Number(per_page); // 5, 10, 15 ...
 
-  const getUserDetails = async () => {
-    const res = await axios.get('/api/users/me');
-    console.log(res.data);
-    setData(res.data.data._id);
-  };
-
+  const entries = data.slice(start, end);
+  console.log(entries);
+  // const getUserDetails = async () => {
+  //   const res = await axios.get('/api/users/me');
+  //   console.log(res.data);
+  //   // setData(res.data.data._id);
+  // };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>Dashboard</h1>
-      <hr />
-      <p>Dashboard page</p>
-      <h2 className="p-1 rounded bg-green-500">
-        {data === 'nothing' ? (
-          'Nothing'
-        ) : (
-          <Link href={`/dashboard/${data}`}>{data}</Link>
-        )}
-      </h2>
-      <hr />
-      <button
-        onClick={logout}
-        className="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Logout
-      </button>
-
-      <button
-        onClick={getUserDetails}
-        className="bg-green-800 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        GetUser Details
-      </button>
+    <div className="bg-white flex flex-col items-center justify-center h-full w-full text-black">
+      <Navbar />
+      <DashboardTable transactions={entries} />
+      <div className="flex flex-col gap-2 items-center">
+        <PaginationControls
+          hasNextPage={end < data.length}
+          hasPrevPage={start > 0}
+          totalItems={data.length}
+        />
+      </div>
     </div>
   );
 }

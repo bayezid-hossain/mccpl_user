@@ -97,7 +97,7 @@ export default function LoginPage() {
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-[url('/assets/login-bg.png')] bg-blue-950 bg-blend-normal text-black">
       <div className="h-full w-full flex flex-col items-center justify-center min-h-screen bg-[url('/assets/bg-grid.svg')] bg-cover sm:bg-contain">
         <div className="bg-white flex flex-col items-center justify-center p-12 max-w-[70vw]">
-          <div className="w-full flex items-center justify-center mb-2">
+          <div className="w-full flex flex-col items-center justify-center mb-2">
             <Image
               src={'/assets/logo.png'}
               height={1000}
