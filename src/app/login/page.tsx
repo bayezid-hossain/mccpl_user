@@ -11,7 +11,6 @@ export default function LoginPage() {
     mobile: '',
     otp: '',
   });
-  const [invalidNumber, setInvalidNumber] = React.useState(false);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -22,7 +21,6 @@ export default function LoginPage() {
     if (regex.test(inputValue)) {
       // Handle valid input
       setUser({ ...user, mobile: e.target.value });
-    } else {
     }
   };
   const handleOtpChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +30,6 @@ export default function LoginPage() {
     if (regex.test(inputValue)) {
       // Handle valid input
       setUser({ ...user, otp: e.target.value });
-    } else {
     }
   };
 
