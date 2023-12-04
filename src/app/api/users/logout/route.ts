@@ -8,7 +8,7 @@ export async function GET() {
     });
     console.log(response.cookies.get('token'));
 
-    response.cookies.set('token', '', { httpOnly: true, maxAge: -1 });
+    response.cookies.set('token', '', { httpOnly: true, maxAge: -1,path:'/' });
     return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
