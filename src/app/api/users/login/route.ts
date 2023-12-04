@@ -1,8 +1,9 @@
 import { connect } from '@/dbConfig/dbConfig';
 import User from '@/models/userModel';
 import { NextRequest, NextResponse } from 'next/server';
-import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { nanoid } from 'nanoid';
+import { SignJWT } from 'jose';
+import { getJwtSecretKey } from '@/helpers/auth';
 
 connect();
 
@@ -32,10 +33,12 @@ export async function POST(request: NextRequest) {
       mobile: user.mobile,
     };
     //create token
-    const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, {
-      expiresIn: '1d',
-    });
-
+    const token = await new SignJWT({ data: tokenData })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setJti(nanoid())
+      .setIssuedAt()
+      .setExpirationTime('1d')
+      .sign(new TextEncoder().encode(getJwtSecretKey()));
     const response = NextResponse.json({
       message: 'Login successful',
       success: true,

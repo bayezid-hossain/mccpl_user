@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
     const otp = generateOtp();
     const otpExpire = getCooldownTime(10);
     const otpCooldown = getCooldownTime(1.5);
-    console.log(otpExpire); // Check if user exists
 
     if (!user) {
       // Create a new user if not exists
@@ -34,11 +33,11 @@ export async function POST(request: NextRequest) {
         otpExpire,
         otpCooldown,
       });
-      console.log('Creating new user');
+      // console.log('Creating new user');
       user = await newUser.save();
     } else {
       // Update existing user's otp
-      console.log('Updating existing user');
+      // console.log('Updating existing user');
       user.otp = otp;
       user.otpExpire = otpExpire;
       user.otpCooldown = otpCooldown;
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
       message: 'Otp sent',
       success: true,
     });
-    console.log(user);
+    // console.log(user);
     return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -318,7 +318,6 @@ export default function Dashboard({
   const end = start + Number(per_page); // 5, 10, 15 ...
 
   const entries = data.slice(start, end);
-  console.log(entries);
   // const getUserDetails = async () => {
   //   const res = await axios.get('/api/users/me');
   //   console.log(res.data);

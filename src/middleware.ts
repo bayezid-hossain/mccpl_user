@@ -1,25 +1,29 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getDataFromToken } from './helpers/getDataFromToken';
+import { verifyAuth } from './helpers/auth';
 
-export function middleware(request: NextRequest) {
-  const data = getDataFromToken(request);
-  console.log(data);
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get('token')?.value || '';
+
+  const verfiedToken =
+    token &&
+    (await verifyAuth(token).catch((err: any) => {
+      console.log(err);
+    }));
+  console.log(verfiedToken);
   const path = request.nextUrl.pathname;
 
   const isPublicPath =
     path === '/login' || path === '/signup' || path === '/verifyemail';
 
-  const token = request.cookies.get('token')?.value || '';
-
-  if (isPublicPath && token) {
+  if (isPublicPath && verfiedToken) {
     return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
   }
 
-  if (!isPublicPath && !token) {
+  if (!isPublicPath && !verfiedToken) {
     return NextResponse.redirect(new URL('/login', request.nextUrl));
   }
-  if (path === '/' && token) {
+  if (path === '/' && verfiedToken) {
     return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
   }
 }
