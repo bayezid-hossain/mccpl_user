@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
       success: true,
     });
 
-    request.cookies.delete('token');
+    response.cookies.delete('token');
     return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getDataFromToken } from './helpers/getDataFromToken';
 
 export function middleware(request: NextRequest) {
+  const data = getDataFromToken(request);
+  console.log(data);
   const path = request.nextUrl.pathname;
 
   const isPublicPath =
