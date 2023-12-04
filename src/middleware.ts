@@ -10,7 +10,6 @@ export async function middleware(request: NextRequest) {
     (await verifyAuth(token).catch((err: any) => {
       console.log(err);
     }));
-  console.log(verfiedToken);
   const path = request.nextUrl.pathname;
 
   const isPublicPath =
