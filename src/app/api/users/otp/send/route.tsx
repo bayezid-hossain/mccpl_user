@@ -9,12 +9,22 @@ export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
     const { mobile } = reqBody;
-    const otp = generateOtp();
-    var currentDate = new Date();
-    currentDate.setTime(currentDate.getTime() + 10 * 60 * 1000); //10 minutes otp expire
-    const otpExpire = currentDate.getTime();
-    console.log(otpExpire); // Check if user exists
     let user = await User.findOne({ mobile });
+    if (user) {
+      if (new Date().getTime() < user.otpCooldown) {
+        return NextResponse.json(
+          {
+            error: 'Please wait before requesting too many times',
+            cooldownTime: user.otpCooldown,
+          },
+          { status: 400 }
+        );
+      }
+    }
+    const otp = generateOtp();
+    const otpExpire = getCooldownTime(10);
+    const otpCooldown = getCooldownTime(1.5);
+    console.log(otpExpire); // Check if user exists
 
     if (!user) {
       // Create a new user if not exists
@@ -22,6 +32,7 @@ export async function POST(request: NextRequest) {
         mobile,
         otp,
         otpExpire,
+        otpCooldown,
       });
       console.log('Creating new user');
       user = await newUser.save();
@@ -30,6 +41,7 @@ export async function POST(request: NextRequest) {
       console.log('Updating existing user');
       user.otp = otp;
       user.otpExpire = otpExpire;
+      user.otpCooldown = otpCooldown;
 
       await user.save();
     }
@@ -42,4 +54,11 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+}
+
+function getCooldownTime(minutes: number) {
+  var currentDate = new Date();
+  currentDate.setTime(currentDate.getTime() + minutes * 60 * 1000);
+  const timestamp = currentDate.getTime();
+  return timestamp;
 }

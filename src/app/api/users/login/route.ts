@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 connect();
 
 export async function POST(request: NextRequest) {
+  console.log('ip' + request.headers.get('x-forwarded-for'));
   try {
     const reqBody = await request.json();
     const { mobile, otp } = reqBody;
@@ -18,13 +19,12 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
+    if (new Date().getTime() > user.otpExpire) {
+      return NextResponse.json({ error: 'OTP Expired' }, { status: 400 });
+    }
     //check if password is correct
-    if (user.otp != otp || new Date().getTime() > user.otpExpire) {
-      return NextResponse.json(
-        { error: 'Invalid OTP or OTP Expired' },
-        { status: 400 }
-      );
+    if (user.otp != otp) {
+      return NextResponse.json({ error: 'Invalid OTP' }, { status: 400 });
     }
     //create token data
     const tokenData = {

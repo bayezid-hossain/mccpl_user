@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema({
   otpExpire: {
     type: String,
   },
+  otpCooldown: {
+    type: String,
+  },
   isVerfied: {
     type: Boolean,
     default: false,

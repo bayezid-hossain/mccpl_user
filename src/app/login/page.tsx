@@ -7,6 +7,11 @@ import { toast } from 'react-hot-toast';
 import Image from 'next/image';
 export default function LoginPage() {
   const router = useRouter();
+  const [cooldownSeconds, setCooldownSeconds] = React.useState(0);
+  const [countdown, setCountdown] = React.useState(90); // Initial countdown value in seconds
+
+  const [cooldownActive, setCooldownActive] = React.useState(false);
+
   const [user, setUser] = React.useState({
     mobile: '',
     otp: '',
@@ -61,9 +66,13 @@ export default function LoginPage() {
   };
 
   const getOtp = async () => {
+    if (cooldownActive) {
+      toast.error('Cooldown active. Please wait before trying again.');
+      return;
+    }
     try {
       if (
-        (user.mobile.startsWith('+') && user.mobile.length != 14) ||
+        (user.mobile.startsWith('+88') && user.mobile.length != 14) ||
         (!user.mobile.startsWith('+') && user.mobile.length != 11)
       ) {
         toast.error('Invalid Mobile Number');
@@ -71,11 +80,23 @@ export default function LoginPage() {
       }
       setLoading(true);
       const response = await axios.post('/api/users/otp/send', user);
+      setCooldownActive(true);
+      startCooldown();
       console.log('Otp Sent', response.data);
-      toast.success('Otp Sent');
+      toast.success('Otp Sent'); // Start cooldown when requesting OTP
     } catch (error: any) {
-      console.log('Otp failed', error.message);
-      toast.error(error.message);
+      console.log('Otp failed', error);
+      toast.error(error.response.data.error);
+
+      setCountdown(
+        Math.round(
+          ((error.response.data.cooldownTime as number as number) -
+            new Date().getTime()) /
+            1000
+        )
+      );
+      startCooldown();
+      setCooldownActive(true);
     } finally {
       setLoading(false);
     }
@@ -88,6 +109,20 @@ export default function LoginPage() {
       setButtonDisabled(true);
     }
   }, [user]);
+  const startCooldown = () => {
+    if (countdown == 0) setCountdown(90); // Reset countdown to the initial value
+
+    const cooldownInterval = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        const newCountdown = prevCountdown - 1;
+        if (newCountdown <= 0) {
+          clearInterval(cooldownInterval);
+          setCooldownActive(false);
+        }
+        return newCountdown;
+      });
+    }, 1000);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-[url('/assets/login-bg.png')] bg-blue-950 bg-blend-normal text-black">
@@ -143,9 +178,16 @@ export default function LoginPage() {
 
             <button
               onClick={getOtp}
-              className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
+              className={`p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 ${
+                cooldownActive ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+              disabled={cooldownActive}
             >
-              Get OTP
+              Get OTP{' '}
+              {cooldownActive &&
+                `(${
+                  countdown >= 60 ? `${Math.floor(countdown / 60)} minute ` : ''
+                }${countdown % 60 > 0 ? `${countdown % 60} seconds` : ''})`}
             </button>
             <label
               htmlFor="Mobile Number"
