@@ -9,7 +9,8 @@ const Navbar = () => {
   const router = useRouter();
   const logout = async () => {
     try {
-      await axios.get('/api/users/logout');
+      const response = await axios.get('/api/users/logout');
+      console.log(response);
       toast.success('Logout successful');
       router.push('/login');
     } catch (error: any) {
