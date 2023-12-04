@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     });
     user.otp = '';
     user.otpExpire = '';
+    user.otpCooldown = '';
     await user.save();
     return response;
   } catch (error: any) {
