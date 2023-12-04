@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
     const response = NextResponse.json({
       message: 'Logout successful',
       success: true,
     });
-    console.log(response.cookies.get('token'));
 
-    response.cookies.delete("token");
+    request.cookies.delete('token');
     return response;
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
