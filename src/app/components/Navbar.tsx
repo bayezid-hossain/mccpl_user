@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
-import axios from 'axios';
 import Link from 'next/link';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';

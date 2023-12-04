@@ -19,7 +19,6 @@ export default function LoginPage() {
     const regex = /^[0-9+]*$/;
 
     if (regex.test(inputValue)) {
-      // Handle valid input
       setUser({ ...user, mobile: e.target.value });
     }
   };

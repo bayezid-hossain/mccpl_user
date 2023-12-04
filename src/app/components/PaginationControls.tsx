@@ -27,7 +27,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 
   return (
     <div className="flex gap-2 my-4">
-      {/* Previous Button */}
       <button
         className={`flex items-center justify-center gap-2 bg-blue-500 border-[2px] text-white px-2 py-2 rounded-lg text-md font-semibold md:text-base sm:text-xs md:mx-4 transition-all duration-300 dark:text-neutral-400 ${
           hasPrevPage ? ' dark:text-white' : ''
@@ -41,7 +40,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
         <p className="md:hidden">Previous</p>
       </button>
 
-      {/* Page Buttons */}
       <div className="flex justify-center items-center gap-3">
         {[...Array(totalPages).keys()]
           .filter(
@@ -66,7 +64,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
           ))}
       </div>
 
-      {/* Next Button */}
       <button
         className={`flex items-center justify-center gap-2 bg-blue-500 border-[2px] text-white px-2 py-2 rounded-lg text-md font-semibold  md:mr-4 transition-all duration-300 dark:text-neutral-400 ${
           hasNextPage ? ' dark:text-white' : ''
