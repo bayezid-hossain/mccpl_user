@@ -74,7 +74,7 @@ export default function NewForm() {
     <section className="absolute inset-0 flex flex-col justify-between p-24">
       {/* steps */}
       <nav aria-label="Progress">
-        <ol role="list" className="flex items-center justify-between gap-8">
+        <ol role="list" className="flex items-start justify-evenly gap-8">
           {steps.map((step, index) => (
             <li
               key={step.name}
@@ -85,7 +85,7 @@ export default function NewForm() {
                   <span className="text-sm font-medium text-sky-600 transition-colors ">
                     {step.id}
                   </span>
-                  <span className="text-lg font-semibold">{step.name}</span>
+                  <span className="text-base font-semibold">{step.name}</span>
                 </div>
               ) : currentStep === index ? (
                 <div
@@ -95,14 +95,14 @@ export default function NewForm() {
                   <span className="text-sm font-medium text-sky-600">
                     {step.id}
                   </span>
-                  <span className="text-lg font-semibold">{step.name}</span>
+                  <span className="text-base font-semibold">{step.name}</span>
                 </div>
               ) : (
                 <div className="group flex w-full items-start justify-center flex-col border-t-4 border-gray-200 transition-colors pt-4">
                   <span className="text-sm font-medium text-gray-500 transition-colors">
                     {step.id}
                   </span>
-                  <span className="text-lg text-gray-500 font-semibold">
+                  <span className="text-base text-gray-500 font-semibold">
                     {step.name}
                   </span>
                 </div>
