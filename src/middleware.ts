@@ -12,8 +12,7 @@ export async function middleware(request: NextRequest) {
     }));
   const path = request.nextUrl.pathname;
 
-  const isPublicPath =
-    path === '/login' || path === '/signup' || path === '/verifyemail';
+  const isPublicPath = path === '/login' || path === '/signup';
 
   if (isPublicPath && verfiedToken) {
     return NextResponse.redirect(new URL('/dashboard', request.nextUrl));

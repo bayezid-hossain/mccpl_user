@@ -22,5 +22,5 @@ module.exports = {
       xsm: { max: '375px' },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

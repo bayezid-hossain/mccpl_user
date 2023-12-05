@@ -156,13 +156,10 @@ export default function LoginPage() {
             </h1>
             <hr />
 
-            <label
-              htmlFor="Mobile Number"
-              className="relative block rounded-md border border-blue-500 shadow-sm focus-within:border-green-600 focus-within:ring-1 focus-within:ring-green-600 mb-2"
-            >
+            <label htmlFor="Mobile Number" className="blue-border-label">
               <input
                 type="text"
-                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 p-2 mb-4"
+                className="peer text-input"
                 id="mobile"
                 value={user.mobile}
                 placeholder="Enter Mobile number"
@@ -171,9 +168,7 @@ export default function LoginPage() {
                 required
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs peer-focus:font-semibold">
-                Mobile Number
-              </span>
+              <span className="top-moving-span">Mobile Number</span>
             </label>
 
             <button
@@ -189,12 +184,9 @@ export default function LoginPage() {
                   countdown >= 60 ? `${Math.floor(countdown / 60)} minute ` : ''
                 }${countdown % 60 > 0 ? `${countdown % 60} seconds` : ''})`}
             </button>
-            <label
-              htmlFor="Mobile Number"
-              className="relative block rounded-md border border-blue-500 shadow-sm focus-within:border-green-600 focus-within:ring-1 focus-within:ring-green-600 mb-2"
-            >
+            <label htmlFor="OTP" className="blue-border-label">
               <input
-                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 p-2 mb-4"
+                className="peer text-input"
                 id="otp"
                 type="otp"
                 value={user.otp}
@@ -203,9 +195,7 @@ export default function LoginPage() {
                 required
               />
 
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs peer-focus:font-semibold">
-                OTP
-              </span>
+              <span className="top-moving-span">OTP</span>
             </label>
 
             <button
