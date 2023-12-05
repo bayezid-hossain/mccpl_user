@@ -85,7 +85,9 @@ export default function NewForm() {
                   <span className="text-sm font-medium text-sky-600 transition-colors ">
                     {step.id}
                   </span>
-                  <span className="text-base font-semibold">{step.name}</span>
+                  <span className="text-base xsm:text-xs sm:text-sm font-semibold">
+                    {step.name}
+                  </span>
                 </div>
               ) : currentStep === index ? (
                 <div
@@ -95,14 +97,16 @@ export default function NewForm() {
                   <span className="text-sm font-medium text-sky-600">
                     {step.id}
                   </span>
-                  <span className="text-base font-semibold">{step.name}</span>
+                  <span className="text-base xsm:text-xs sm:text-sm font-semibold">
+                    {step.name}
+                  </span>
                 </div>
               ) : (
                 <div className="group flex w-full items-start justify-center flex-col border-t-4 border-gray-200 transition-colors pt-4">
-                  <span className="text-sm font-medium text-gray-500 transition-colors">
+                  <span className=" text-sm font-medium text-gray-500 transition-colors">
                     {step.id}
                   </span>
-                  <span className="text-base text-gray-500 font-semibold">
+                  <span className="xsm:text-xs sm:text-sm text-base text-gray-500 font-semibold">
                     {step.name}
                   </span>
                 </div>
